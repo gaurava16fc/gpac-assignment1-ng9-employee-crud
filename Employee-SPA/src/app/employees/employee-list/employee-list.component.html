@@ -1,0 +1,31 @@
+<div class="container">
+  <div align="right">
+    <a class="btn btn-success" [routerLink]="['/addemployee']"  >Add New Employee</a>
+    <a class="btn btn-success" style="margin:2px;" (click) = "onShowEmployeeList()">Show Employees</a>
+  </div>
+
+  <h3>Employees List</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Employee Name</th>
+        <th>Salary</th>
+        <th>Age</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.salary }}</td>
+        <td>{{ emp.age }}</td>
+        <td>
+          <a href="#" class="btn btn-primary"><i class="far fa-edit"></i></a>
+          <a class="btn btn-danger" style="margin-left:2px;" (click)="onDeleteEmployee(emp.empid)"><i class="fa fa-trash"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
