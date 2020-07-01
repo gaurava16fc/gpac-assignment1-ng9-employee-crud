@@ -57,10 +57,17 @@ export class EmployeeService {
   }
 
 
+  updateEmployee(id: number, employee: Employee): Observable<Employee>  {
+    return this.http.put<Employee>(this.apiBaseUrl + id, JSON.stringify(employee), this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
   // Error handling...
   handleError(error: any) {
     let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
+    if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
     } else {

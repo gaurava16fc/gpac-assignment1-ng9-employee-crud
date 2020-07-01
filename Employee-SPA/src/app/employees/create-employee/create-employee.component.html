@@ -1,20 +1,35 @@
 <div class="container custom-container">
     <div class="col-md-12">
-      <h3 class="mb-3 text-center">Create Employee</h3>
+      <h3 class="mb-3 text-center">{{_headerTitle}}</h3>
   
-      <form [formGroup]="addEmpForm" (ngSubmit)="onSubmitEmployee()">
+      <form [formGroup]="addEmpForm" novalidate >
+        <div class="form-group" *ngIf="isEditMode==true">
+          <label for="empid">Employee ID</label>
+          <input
+            type="number"
+            readonly
+            name="empid"
+            id="empid"
+            formControlName="empid"
+            [(ngModel)]="employee.id"
+            class="form-control"
+            placeholder="Id"/>
+        </div>
+
+
         <div class="form-group" [class.has-error]="addEmpForm.get('empname').invalid && addEmpForm.get('empname').touched">
           <label for="empname">Employee Name</label>
           <input
             type="text"
             required
-            name="empname"            
+            name="empname"
             formControlName="empname"
             id="empname"
+            [(ngModel)]="employee.name"
             class="form-control"
             placeholder="Name"/>
 
-            <span *ngIf="addEmpForm.get('empname').invalid && addEmpForm.get('empname').touched" class="help-block">
+            <span *ngIf="addEmpForm.get('empname').invalid && addEmpForm.get('empname').touched" class="help-block alert-danger">
               Name is required
             </span>
         </div>
@@ -26,10 +41,11 @@
             required
             minlength=4
             formControlName="empsalary"
+            [(ngModel)]="employee.salary"
             class="form-control"
             placeholder="Salary"/>
 
-            <span *ngIf="addEmpForm.get('empsalary').invalid && addEmpForm.get('empsalary').touched" class="help-block">
+            <span *ngIf="addEmpForm.get('empsalary').invalid && addEmpForm.get('empsalary').touched" class="help-block alert-danger">
               Salary is required
             </span>
         </div>
@@ -41,19 +57,22 @@
             required
             minlength=2
             formControlName="empage"
+            [(ngModel)]="employee.age"
             class="form-control"
             placeholder="Age"/>
 
-            <span *ngIf="addEmpForm.get('empage').invalid && addEmpForm.get('empage').touched" class="help-block">
+            <span *ngIf="addEmpForm.get('empage').invalid && addEmpForm.get('empage').touched" class="help-block alert-danger">
               Age is required
             </span>
         </div>
   
         <div class="form-group">
           <button type="submit" id="btnSave" class="btn btn-primary btn-success" 
-              *ngIf="isEditMode==false">Save</button>
+              *ngIf="isEditMode==false" (click)="onSubmitEmployee()"
+              [disabled]="addEmpForm.invalid">Save</button>
           <button type="submit" id="btnUpdate" class="btn btn-primary btn-success" 
-              *ngIf="isEditMode==true" (click)="onUpdateEmployee()">Update</button>
+              *ngIf="isEditMode==true" (click)="onUpdateEmployee()"
+              [disabled]="addEmpForm.invalid">Update</button>
           <button id="btnCancel" class="btn btn-danger" style="margin: 2px;" (click)="cancelEmployee()">Cancel</button>
         </div>
 

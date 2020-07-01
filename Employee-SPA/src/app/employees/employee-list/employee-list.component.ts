@@ -26,29 +26,29 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // console.log('Inside ngOnInit()....');
     this.routeDataSub = this.route.data.subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.employees = data['employees'];
-       console.log(this.employees);
+      //  console.log(this.employees);
       });
   }
 
   ngOnDestroy() {
-    // if (this.routeDataSub) {
-    //   this.routeDataSub.unsubscribe();
-    // }
+    if (this.routeDataSub) {
+      this.routeDataSub.unsubscribe();
+    }
 
-    // if (this.deleteEmployeeSub) {
-    //   this.deleteEmployeeSub.unsubscribe();
-    // }
+    if (this.deleteEmployeeSub) {
+      this.deleteEmployeeSub.unsubscribe();
+    }
   }
 
   onDeleteEmployee(id: number) {
-    this.alertify.confirm('Do you want to delete this employee?', () => {
+    this.alertify.confirm('Are you sure you want to delete an employee with Id # ' + id + '?', () => {
       // console.log('Deleted# ' + id);
       this.deleteEmployeeSub = this.employeeService.deleteEmployee(id).subscribe((data) => {
           // console.log('success' + data);
           this.alertify.success('Employee Id# {' + id + '} has been deleted successfully!');
-          this.router.navigate(['employees'], {relativeTo: this.route});
+          this.router.navigate(['/employees']);
         },
         error => {
           this.alertify.error(error);
@@ -57,6 +57,6 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   }
 
   onShowEmployeeList() {
-    this.router.navigate([''], {relativeTo: this.route});
+    this.router.navigate(['/employees']);
   }
 }

@@ -6,12 +6,7 @@ namespace EmployeeApp.API.DTOs
 {
     public class EmployeeForUpdateDTO
     {
-        private readonly IConfiguration _config;
-
-        public EmployeeForUpdateDTO(IConfiguration configuration)
-        {
-            this._config = configuration;
-        }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is a required field")]
         public string Name { get; set; }
