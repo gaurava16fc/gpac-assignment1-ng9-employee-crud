@@ -17,20 +17,28 @@ import { PreventUnsavedChangesAddEmpGuard } from './_guards/prevent-unsaved-chan
 import { PreventUnsavedChangesEditEmpGuard } from './_guards/prevent-unsaved-changes-edit-emp-guard';
 import { EmployeeEditResolver } from './_resolvers/employee-edit-resolver';
 import { AlertifyService } from './_services/alertify.service';
+import { PageNotFoundComponent } from './_404/page-not-found/page-not-found.component';
+import { SearchPanelComponent } from './employees/search-panel/search-panel.component';
+import { StrictNumericDigtsDirective } from './_directives/strict-numeric-digts.directive';
+import { StrictNumericDecimalDigtsDirective } from './_directives/strict-numeric-decimal-digts.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeeListComponent,
     HomeComponent,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    PageNotFoundComponent,
+    SearchPanelComponent,
+    StrictNumericDigtsDirective,
+    StrictNumericDecimalDigtsDirective
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {enableTracing: false}),
   ],
   providers: [
     ErrorInterceptorProvider,

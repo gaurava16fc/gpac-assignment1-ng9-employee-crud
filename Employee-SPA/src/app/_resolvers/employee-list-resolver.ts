@@ -3,7 +3,7 @@ import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Employee } from '../_models/employee';
+import { Employee } from '../_models/employee.model';
 import { EmployeeService } from '../_services/employee.service';
 import { AlertifyService } from '../_services/alertify.service';
 

@@ -1,13 +1,14 @@
 <div class="container custom-container">
     <div class="col-md-12">
-      <h3 class="mb-3 text-center">{{_headerTitle}}</h3>
+      <h3 class="mb-3 text-center">{{headerTitle}}</h3>
   
       <form [formGroup]="addEmpForm" novalidate >
         <div class="form-group" *ngIf="isEditMode==true">
           <label for="empid">Employee ID</label>
           <input
-            type="number"
+            type="text"
             readonly
+            appStrictNumericDigts 
             name="empid"
             id="empid"
             formControlName="empid"
@@ -22,7 +23,7 @@
           <input
             type="text"
             required
-            name="empname"
+            name="empname"  
             formControlName="empname"
             id="empname"
             [(ngModel)]="employee.name"
@@ -37,9 +38,10 @@
         <div class="form-group" [class.has-error]="addEmpForm.get('empsalary').invalid && addEmpForm.get('empsalary').touched">
           <label for="empsalary">Salary</label>
           <input
-            type="number"
-            required
+            type="text"
+            required  
             minlength=4
+            maxlength=10
             formControlName="empsalary"
             [(ngModel)]="employee.salary"
             class="form-control"
@@ -53,8 +55,9 @@
         <div class="form-group" [class.has-error]="addEmpForm.get('empage').invalid && addEmpForm.get('empage').touched">
           <label for="empage">Age</label>
           <input
-            type="number"
-            required
+            type="text"
+            required 
+            appStrictNumericDigts 
             minlength=2
             formControlName="empage"
             [(ngModel)]="employee.age"

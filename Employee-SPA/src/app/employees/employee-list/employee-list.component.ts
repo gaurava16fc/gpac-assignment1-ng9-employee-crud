@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, of, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { Employee } from 'src/app/_models/employee';
+import { Employee } from 'src/app/_models/employee.model';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { EmployeeService } from 'src/app/_services/employee.service';
 
@@ -13,6 +14,7 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 })
 export class EmployeeListComponent implements OnInit, OnDestroy {
   employees: Employee[];
+  searchByEmpName: string;
   routeDataSub: Subscription;
   deleteEmployeeSub: Subscription;
 
@@ -24,11 +26,10 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    // console.log('Inside ngOnInit()....');
+    // // console.log('Inside ngOnInit()....');
+    this.searchByEmpName = '';
     this.routeDataSub = this.route.data.subscribe(data => {
-      // console.log(data);
-      this.employees = data['employees'];
-      //  console.log(this.employees);
+        this.employees = data['employees'];
       });
   }
 
@@ -48,7 +49,8 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
       this.deleteEmployeeSub = this.employeeService.deleteEmployee(id).subscribe((data) => {
           // console.log('success' + data);
           this.alertify.success('Employee Id# {' + id + '} has been deleted successfully!');
-          this.router.navigate(['/employees']);
+          // this.router.navigate(['employees'], { relativeTo: this.route});
+          this.refreshData();
         },
         error => {
           this.alertify.error(error);
@@ -57,6 +59,32 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   }
 
   onShowEmployeeList() {
-    this.router.navigate(['/employees']);
+    this.refreshData();
+  }
+
+  refreshData() {
+    this.getEmployeeLists().subscribe((data: Employee[]) => {
+      this.employees = data;
+    });
+  }
+
+  getEmployeeLists(): Observable<Employee[]> {
+    return this.employeeService.getEmployees().pipe(
+      catchError(error => {
+          this.alertify.error('Problem retrieving data at Employee List');
+          return of(null);
+      })
+    );
+  }
+
+  filterData() {
+    if (this.searchByEmpName !== '') {
+      this.searchByEmpName = this.searchByEmpName.toLocaleLowerCase().trim();
+      this.employees = this.employees.filter(res => {
+        return (res.name.toLocaleLowerCase().trim().match(this.searchByEmpName));
+      });
+    } else {
+      this.refreshData();
+    }
   }
 }

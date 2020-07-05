@@ -7,6 +7,7 @@ import { CreateEmployeeComponent } from './employees/create-employee/create-empl
 import { PreventUnsavedChangesAddEmpGuard } from './_guards/prevent-unsaved-changes-add-emp-guard';
 import { PreventUnsavedChangesEditEmpGuard } from './_guards/prevent-unsaved-changes-edit-emp-guard';
 import { EmployeeEditResolver } from './_resolvers/employee-edit-resolver';
+import { PageNotFoundComponent } from './_404/page-not-found/page-not-found.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,5 +22,6 @@ export const appRoutes: Routes = [
                 canDeactivate: [PreventUnsavedChangesEditEmpGuard] },
         ]
     },
-    { path: '**', redirectTo: '', pathMatch: 'full' },
+    // { path: '**', redirectTo: '', pathMatch: 'full' },
+    { path: '**', component: PageNotFoundComponent, pathMatch: 'full' },
 ];

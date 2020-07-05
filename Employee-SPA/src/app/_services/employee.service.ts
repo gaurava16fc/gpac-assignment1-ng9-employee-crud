@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
-import { Employee } from '../_models/employee';
+import { Employee } from '../_models/employee.model';
 
 @Injectable({
   providedIn: 'root'
