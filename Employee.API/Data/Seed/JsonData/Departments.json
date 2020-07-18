@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "Admin",
+    "Description": "IT Administration Division"
+  },
+  {
+    "Name": "Operations",
+    "Description": "Business Operations Division"
+  },
+  {
+    "Name": "HRD",
+    "Description": "HRD Division"
+  },
+  {
+    "Name": "MIS",
+    "Description": "MIS And Reporting Division"
+  },
+  {
+    "Name": "Finance",
+    "Description": "Finance Division"
+  }
+]

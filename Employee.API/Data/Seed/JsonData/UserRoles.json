@@ -1,0 +1,14 @@
+[
+  {
+    "RoleName": "Admin"
+  },
+  {
+    "RoleName": "Operations"
+  },
+  {
+    "RoleName": "MIS"
+  },
+  {
+    "RoleName": "Finance"
+  }
+]

@@ -21,6 +21,7 @@ import { PageNotFoundComponent } from './_404/page-not-found/page-not-found.comp
 import { SearchPanelComponent } from './employees/search-panel/search-panel.component';
 import { StrictNumericDigtsDirective } from './_directives/strict-numeric-digts.directive';
 import { StrictNumericDecimalDigtsDirective } from './_directives/strict-numeric-decimal-digts.directive';
+import { EmployeeFilterPipe } from './_pipes/employee-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { StrictNumericDecimalDigtsDirective } from './_directives/strict-numeric
     PageNotFoundComponent,
     SearchPanelComponent,
     StrictNumericDigtsDirective,
-    StrictNumericDecimalDigtsDirective
+    StrictNumericDecimalDigtsDirective,
+    EmployeeFilterPipe
   ],
   imports: [
     BrowserModule,

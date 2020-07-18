@@ -36,7 +36,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
-            var _employees = await _repo.Read().ToListAsync();
+            var _employees = await _repo.Read().Include(p => p.Photos).ToListAsync();
             var _employeesListToReturn = _mapper.Map<IEnumerable<EmployeeDTO>>(_employees);
             return Ok(_employeesListToReturn);
         }
@@ -45,7 +45,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
-            var _employee = await _repo.Read().FirstOrDefaultAsync(e => e.Id == id);
+            var _employee = await _repo.Read().Include(p => p.Photos).FirstOrDefaultAsync(e => e.Id == id);
             if (_employee == null)
             {
                 return NotFound(@"Employee with Id = {" + Convert.ToString(id) + "} is not found");

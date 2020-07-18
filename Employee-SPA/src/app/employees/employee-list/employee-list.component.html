@@ -8,10 +8,11 @@
   <!-- <app-search-panel></app-search-panel> -->
 
   <h3>Employees List</h3>
-  Search By Employee Name: 
-  <input type="text" #txtSearchEmpName [(ngModel)] = "searchByEmpName" (input) = "filterData()">
-  {{searchByEmpName}}
+  Filter: 
+  <input type="text" [(ngModel)] = "searchByEmpName" placeholder="Search By Name" style="width:300px" >
+  <!-- {{searchByEmpName}} -->
   <hr />
+  <!-- <div *ngIf="noDataFound === false; else elseBlock"> -->
   <table class="table table-striped">
     <thead>
       <tr>
@@ -23,16 +24,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let emp of employees">
+      <tr *ngFor="let emp of employees | employeeFilter: searchByEmpName">
         <td>{{ emp.id }}</td>
         <td>{{ emp.name }}</td>
         <td>{{ emp.salary }}</td>
         <td>{{ emp.age }}</td>
         <td>
-          <a class="btn btn-primary" [routerLink]="['/employees/', emp.id]"><i class="far fa-edit"></i></a>
+          <a class="btn btn-primary" [routerLink]="['/employees/edit/', emp.id]"><i class="far fa-edit"></i></a>
           <button class="btn btn-danger" style="margin-left:2px;" (click)="onDeleteEmployee(emp.id)"><i class="fa fa-trash"></i></button>
         </td>
       </tr>
     </tbody>
   </table>
+<!-- </div> -->
+
+
+<!-- <ng-template #elseBlock ><div style="alert alert-danger">No data found...</div></ng-template> -->
+
 </div>

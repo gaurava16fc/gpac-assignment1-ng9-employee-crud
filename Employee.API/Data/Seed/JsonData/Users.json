@@ -1,0 +1,45 @@
+[
+  {
+    "Username": "Diana",
+    "Gender": "female",
+    "DateOfBirth": "1994-02-18",
+    "Password": "password",
+    "Created": "1999-04-10",
+    "LastActive": "1999-04-10",
+    "IsActive": "true",
+    "UserRoleId": 1
+  },
+  {
+    "Username": "Sheena",
+    "Gender": "female",
+    "DateOfBirth": "2004-02-02",
+    "Password": "password",
+    "Created": "1985-07-05",
+    "LastActive": "1985-07-05",
+    "IsActive": "true",
+    "UserRoleId": 1
+  },
+
+
+
+  {
+    "Username": "Potts",
+    "Gender": "male",
+    "DateOfBirth": "1988-02-01",
+    "Password": "password",
+    "Created": "1991-01-02",
+    "LastActive": "1991-01-02",
+    "IsActive": "true",
+    "UserRoleId": 2
+  },
+  {
+    "Username": "Wise",
+    "Gender": "male",
+    "DateOfBirth": "1991-11-23",
+    "Password": "password",
+    "Created": "1988-12-12",
+    "LastActive": "1988-12-12",
+    "IsActive": "true",
+    "UserRoleId": 2
+  }
+]

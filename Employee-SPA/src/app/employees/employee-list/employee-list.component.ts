@@ -14,6 +14,7 @@ import { EmployeeService } from 'src/app/_services/employee.service';
 })
 export class EmployeeListComponent implements OnInit, OnDestroy {
   employees: Employee[];
+  // noDataFound = false;
   searchByEmpName: string;
   routeDataSub: Subscription;
   deleteEmployeeSub: Subscription;
@@ -28,6 +29,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // // console.log('Inside ngOnInit()....');
     this.searchByEmpName = '';
+    // this.noDataFound = false;
     this.routeDataSub = this.route.data.subscribe(data => {
         this.employees = data['employees'];
       });
@@ -65,6 +67,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   refreshData() {
     this.getEmployeeLists().subscribe((data: Employee[]) => {
       this.employees = data;
+      // this.noDataFound = false;
     });
   }
 
@@ -77,14 +80,17 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterData() {
-    if (this.searchByEmpName !== '') {
-      this.searchByEmpName = this.searchByEmpName.toLocaleLowerCase().trim();
-      this.employees = this.employees.filter(res => {
-        return (res.name.toLocaleLowerCase().trim().match(this.searchByEmpName));
-      });
-    } else {
-      this.refreshData();
-    }
-  }
+  // filterData() {
+  //   if (this.searchByEmpName !== '') {
+  //     // this.noDataFound = true;
+  //     this.searchByEmpName = this.searchByEmpName.toLocaleLowerCase().trim();
+  //     // this.refreshData();
+  //     this.employees = this.employees.filter(res => {
+  //       // this.noDataFound = false;
+  //       return (res.name.toLocaleLowerCase().trim().match(this.searchByEmpName));
+  //     });
+  //   } else {
+  //     this.refreshData();
+  //   }
+  // }
 }

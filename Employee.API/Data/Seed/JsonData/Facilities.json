@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "Delhi",
+    "Description": "Delhi-NCR (Registered Office)",
+    "IsActive": "true"
+  },
+  {
+    "Name": "Mumbai",
+    "Description": "Mumbai (Head Office)",
+    "IsActive": "true"
+  },
+  {
+    "Name": "Bangaluru",
+    "Description": "Bangaluru (Offshore Development Center - 1)",
+    "IsActive": "true"
+  },
+  {
+    "Name": "Hyderabad",
+    "Description": "Hyderabad (Offshore Development Center - 2)",
+    "IsActive": "true"
+  }
+]

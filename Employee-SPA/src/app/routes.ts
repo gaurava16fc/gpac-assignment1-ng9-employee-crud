@@ -18,7 +18,7 @@ export const appRoutes: Routes = [
             { path: 'employees', component: EmployeeListComponent, resolve: {employees: EmployeeListResolver} },
             { path: 'addemployee', component: CreateEmployeeComponent,
                 canDeactivate: [PreventUnsavedChangesAddEmpGuard] },
-            { path: 'employees/:id', component: CreateEmployeeComponent, resolve: {employees: EmployeeEditResolver},
+            { path: 'employees/edit/:id', component: CreateEmployeeComponent, resolve: {employees: EmployeeEditResolver},
                 canDeactivate: [PreventUnsavedChangesEditEmpGuard] },
         ]
     },

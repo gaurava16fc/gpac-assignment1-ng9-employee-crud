@@ -21,7 +21,7 @@ namespace EmployeeApp.API
                 {
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
-                    Seed.SeedEmployee(context);
+                    Seed.DumpSeedData(context);
                 }
                 catch (Exception ex)
                 {
