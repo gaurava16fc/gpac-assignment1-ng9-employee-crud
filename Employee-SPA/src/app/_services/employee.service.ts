@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
 import { Employee } from '../_models/employee.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  apiBaseUrl = '';
+  private apiBaseUrl = '';
 
   // Http Options
   httpOptions = {
@@ -20,18 +21,47 @@ export class EmployeeService {
     })
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     this.apiBaseUrl = environment.apiBaseUrl + 'employees/';
   }
 
+  // getEmployees(): Observable<Employee[]> {
+  //   return this.http.get<Employee[]>(this.apiBaseUrl).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiBaseUrl).pipe(
+      map(result => {
+        console.log(result);
+        let employeeList: Employee[] = [];
+        for(let emp of result) {
+          employeeList.push(new Employee(emp));
+        }
+        return employeeList;
+      }),
       catchError(this.handleError)
     );
   }
 
+  isLoggedUserWithAdminRole() {
+    return this.authService.isLoggedUserWithAdminRole();
+  }
+
+  // getEmployee(id: number): Observable<Employee>  {
+  //   return this.http.get<Employee>(this.apiBaseUrl + id).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
   getEmployee(id: number): Observable<Employee>  {
     return this.http.get<Employee>(this.apiBaseUrl + id).pipe(
+      map(result => {
+        console.log(result);
+        return new Employee(result);
+      }),
       catchError(this.handleError)
     );
   }
@@ -43,14 +73,6 @@ export class EmployeeService {
   }
 
   deleteEmployee(id: number) {
-    // console.log('Reached here at deleteEmployee() method.... URL: ' + this.apiBaseUrl + id);
-    // return this.http.delete<Employee>(this.apiBaseUrl + id).subscribe((data) => {
-    //   console.log('success' + data);
-    // },
-    // error => {
-    //   this.handleError(error);
-    // });
-
     return this.http.delete<Employee>(this.apiBaseUrl + id, this.httpOptions).pipe(
       catchError(this.handleError)
     );

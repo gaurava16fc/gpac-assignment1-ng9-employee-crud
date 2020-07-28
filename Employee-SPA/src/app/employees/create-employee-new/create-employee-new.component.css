@@ -1,0 +1,29 @@
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }
+  
+  .ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+  }
+
+  .radio-inline {
+    padding:2px;
+    margin:2px;
+  }
+
+  .img-thumbnail {
+    margin:25px;
+    width:85%;
+    height:85%;
+}
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: #fff;
+    border-top: none;
+}

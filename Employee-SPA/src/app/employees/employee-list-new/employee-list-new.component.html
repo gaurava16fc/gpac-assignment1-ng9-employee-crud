@@ -1,0 +1,80 @@
+<div class="container">
+  <h3>Employees List</h3>
+  Filter:
+  <input
+    type="text"
+    [(ngModel)]="searchByEmpName"
+    placeholder="Search By Name"
+    style="width: 300px;"
+  />
+  <!-- {{searchByEmpName}} -->
+  <hr />
+
+  <div class="card text-white bg-primary" *ngFor="let employee of employees | employeeFilter: searchByEmpName">
+    <div class="card-header">
+      <h3 class="card-title">{{ employee.name }}</h3>
+    </div>
+
+    <div class="card-body">
+      <div class="col-10">
+        <div class="row vertical-align">
+          <div class="col-4">
+            <img class="imageClass" [src]="employee.photoUrl" />
+            <br />
+            <div class="float-right">
+                <!-- <a class="btn btn-primary" [routerLink]="['/employees/edit/', employee.id]">View</a> -->
+                <button class="btn btn-primary" style="margin-left:2px;" [routerLink]="['/employees/edit/', employee.id]">Edit</button>
+                <button class="btn btn-danger" style="margin-left:2px;" (click)="onDeleteEmployee(employee.id)">Delete</button>
+            </div> 
+          </div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-6 entity-label">Gender {{ employee.gender | titlecase}}</div>
+              <div class="col-6">: {{ employee.gender | titlecase}}</div>
+              <!-- <div class="col-6">: <div style="display:inline-block;" >
+                    <label class="radio-inline">
+                      <input type="radio" name="gender" value="male" [(ngModel)]="employee.gender"> Male
+                    </label>
+                    <label class="radio-inline" style="margin-left: 5px;">
+                      <input type="radio" name="gender" value="female" [(ngModel)]="employee.gender"> Female
+                    </label>
+                  </div>
+              </div> -->
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Date of Birth</div>
+              <div class="col-6">: {{ employee.dob | date }}</div>
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Date of Joining</div>
+              <div class="col-6">: {{ employee.doj | date }}</div>
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Phone</div>
+              <div class="col-6">: {{ employee.phoneNumber }}</div>
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Email</div>
+              <div class="col-6">: {{ employee.email}}</div>
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Department</div>
+              <div class="col-6">: {{ employee.departmentId }}</div>
+            </div>
+            <div class="row">
+              <div class="col-6 entity-label">Location</div>
+              <div class="col-6">
+                : {{ employee.city }}, {{ employee.country}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="card-footer">
+        <a class="btn btn-primary" [routerLink]="['/employees/edit/', employee.id]"><i class="far fa-edit"></i></a>
+        <button class="btn btn-danger" style="margin-left:2px;" (click)="onDeleteEmployee(employee.id)"><i class="fa fa-trash"></i></button>
+    </div> -->
+  </div>
+</div>

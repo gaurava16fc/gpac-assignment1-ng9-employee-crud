@@ -1,0 +1,8 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    color: white;
+    background-color: orange;
+}

@@ -1,6 +1,5 @@
 ﻿using EmployeeApp.API.Models;
 using System;
-using System.Collections.Generic;
 
 namespace EmployeeApp.API.DTOs
 {
@@ -11,10 +10,8 @@ namespace EmployeeApp.API.DTOs
         public double Salary { get; set; }
         public int Age { get; set; }
         public string Gender { get; set; }
-
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-
         public DateTime DateOfBirth { get; set; }
         public DateTime? DateOfJoining { get; set; }
         public Department Department { get; set; }
@@ -27,6 +24,4 @@ namespace EmployeeApp.API.DTOs
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
     }
-
-
 }

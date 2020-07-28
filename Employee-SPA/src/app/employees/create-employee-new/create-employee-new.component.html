@@ -1,0 +1,280 @@
+<div class="container custom-container">
+    <div class="col-md-12">
+      <h3 class="mb-3 text-center">{{headerTitle}}</h3>
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-sm-4">
+            <h3>{{employee.name }}</h3>
+          </div>
+          <div class="col-sm-8">
+            <div *ngIf="addEmpForm.dirty" class="alert alert-info">
+             <strong>Information: </strong>You have made some changes. Any unsaved changes will be lost.
+            </div>
+          </div>
+      
+          <div class="col-sm-4">
+            <div class="card">
+              <img class="card-img-top img-thumbnail" src="{{employee.photoUrl }}" alt="{{employee.name }}" >
+              <div class="card-body" *ngIf="isEditMode === true">
+                <div>
+                  <strong>Employee ID:</strong>
+                  <p>{{employee.id }}</p>
+                </div>
+                <div>
+                  <strong>Location:</strong>
+                  <p>{{employee.city }}, {{employee.country }}</p>
+                </div>
+                <div>
+                  <strong>Age:</strong>
+                  <p>{{employee.age }}</p>
+                </div>
+                <div>
+                  <strong>Last Modified On:</strong>
+                  <p>{{employee.lastModifiedOn | date }}</p>
+                </div>
+                <div>
+                  <strong>Created On:</strong>
+                  <p>{{employee.createdOn | date }}</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                  <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" class="btn btn-success btn-block">Save Changes</button>  
+              </div>
+            </div>
+          </div>
+      
+          
+          <div class="col-sm-8">
+            <div class="tab-panel">
+              <tabset class="employee-tabset">
+                <tab heading="Edit Profile">
+                 <form [formGroup]="addEmpForm" novalidate >
+                    <div class="col-md-12">
+                  <div class="row">
+                  <div class="col-sm-6">            
+                    <!-- Employee Name -->
+                    <div class="form-group" 
+                        [class.has-error]="addEmpForm.get('empname').invalid
+                            && addEmpForm.get('empname').touched">
+                      <label for="empname">Name</label>
+                      <input
+                        type="text"
+                        required
+                        name="empname"  
+                        formControlName="empname"
+                        id="empname"
+                        [(ngModel)]="employee.name"
+                        class="form-control"
+                        placeholder="Name"/>
+            
+                        <span *ngIf="addEmpForm.get('empname').invalid && addEmpForm.get('empname').touched"
+                            class="help-block alert-danger">
+                          Name is required
+                        </span>
+                    </div>
+                  </div>
+            
+                  <div class="col-sm-6">
+                    <!-- Employee Gender -->        
+                    <div class="form-group" [class.has-error]="addEmpForm.get('empgender').invalid 
+                              && addEmpForm.get('empgender').touched">
+                      <label>Gender</label>
+                      <div class="form-control">
+                          <label class="radio-inline">
+                              <input type="radio" name="empgender" required formControlName="empgender" 
+                                    value="male" [(ngModel)]="employee.gender"> Male
+                          </label>
+                          <label class="radio-inline">
+                              <input type="radio" name="empgender" required formControlName="empgender" 
+                                    value="female" [(ngModel)]="employee.gender"> Female
+                          </label>
+                      </div>
+                      <span *ngIf="addEmpForm.get('empgender').invalid && addEmpForm.get('empgender').touched" 
+                            class="help-block alert-danger">
+                          Gender is required
+                        </span>
+                    </div>
+
+                    
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">            
+                    <!-- Employee Email -->
+                    <div class="form-group" 
+                      [class.has-error]="addEmpForm.get('empemail').invalid 
+                          && addEmpForm.get('empemail').touched">
+                      <label for="empemail">Email</label>
+                      <input
+                        type="text"
+                        required
+                        name="empemail"  
+                        formControlName="empemail"
+                        id="empemail"
+                        [(ngModel)]="employee.email"
+                        class="form-control"
+                        placeholder="Email"/>
+            
+                        <span *ngIf="addEmpForm.get('empemail').invalid && addEmpForm.get('empemail').touched"
+                             class="help-block alert-danger">
+                          Email is mandatory
+                        </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">            
+                    <!-- Employee Phone -->
+                    <div class="form-group" 
+                        [class.has-error]="addEmpForm.get('empphone').invalid 
+                            && addEmpForm.get('empphone').touched">
+                      <label for="empphone">Phone Number</label>
+                      <input
+                        type="text"
+                        required
+                        name="empphone"  
+                        formControlName="empphone"
+                        id="empphone"
+                        [(ngModel)]="employee.phoneNumber"
+                        class="form-control"
+                        placeholder="Phone Number"/>
+            
+                        <span *ngIf="addEmpForm.get('empphone').invalid && addEmpForm.get('empphone').touched"
+                            class="help-block alert-danger">
+                          Phone Number is mandatory
+                        </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">            
+                    <!-- Employee Date Of Birth -->
+                    <div class="form-group" 
+                          [class.has-error]="addEmpForm.get('empdob').invalid 
+                              && addEmpForm.get('empdob').touched">
+                      <label for="empdob">Date Of Birth</label>
+                      <input
+                        type="text"
+                        name="empdob"  
+                        required
+                        formControlName="empdob"
+                        id="empdob"
+                        [(ngModel)]="employee.dob"
+                        class="form-control"
+                        placeholder="Date Of Birth"
+                        bsDatepicker
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"/>
+            
+                        <span *ngIf="addEmpForm.get('empdob').invalid && addEmpForm.get('empdob').touched"
+                            class="help-block alert-danger">
+                          Date of Birth is required
+                        </span>
+                    </div>              
+                  </div>
+
+                  <div class="col-sm-6">            
+                    <!-- Employee Date Of Joining -->
+                    <div class="form-group">
+                      <label for="empdoj">Date Of Joining</label>
+                      <input
+                        type="text"
+                        name="empdoj"  
+                        formControlName="empdoj"
+                        id="empdoj"
+                        [(ngModel)]="employee.doj"
+                        class="form-control"
+                        placeholder="Date Of Joining"
+                        bsDatepicker
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"/>
+                    </div>              
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-sm-6">            
+                    <!-- Employee City -->
+                    <div class="form-group">
+                      <label for="empcity">City</label>
+                      <input
+                        type="text"
+                        name="empcity"  
+                        formControlName="empcity"
+                        id="empcity"
+                        [(ngModel)]="employee.city"
+                        class="form-control"
+                        placeholder="City"/>
+                    </div>       
+                  </div>
+                  <div class="col-sm-6">            
+                    <!-- Employee Country -->
+                    <div class="form-group">
+                      <label for="empcountry">Country</label>
+                      <input
+                        type="text"
+                        name="empcountry"  
+                        formControlName="empcountry"
+                        id="empcountry"
+                        [(ngModel)]="employee.country"
+                        class="form-control"
+                        placeholder="Country"/>
+                    </div>       
+                  </div>
+                </div>                
+
+                    <!-- Employee Salary -->
+                    <div class="form-group" [class.has-error]="addEmpForm.get('empsalary').invalid && addEmpForm.get('empsalary').touched">
+                      <label for="empsalary">Salary</label>
+                      <input
+                        type="text"
+                        required  
+                        appStrictNumericDecimalDigts
+                        minlength=4
+                        maxlength=10
+                        formControlName="empsalary"
+                        [(ngModel)]="employee.salary"
+                        class="form-control"
+                        placeholder="Salary"/>
+            
+                        <span *ngIf="addEmpForm.get('empsalary').invalid && addEmpForm.get('empsalary').touched" class="help-block alert-danger">
+                          Salary is required
+                        </span>
+                    </div>
+
+                    <!-- <h4>Location Details:</h4>
+                    <div class="form-inline">
+                      <label for="empcity">City</label>
+                      <input type="text" class="form-control" [(ngModel)]="employee.city" formControlName="empcity" placeholder="City">
+                      <label for="empcountry">Country</label>
+                      <input type="text" class="form-control" [(ngModel)]="employee.country" formControlName="empcountry" placeholder="Country">
+                    </div> -->
+              
+                    <div class="form-group">
+                      <button type="submit" id="btnSave" class="btn btn-primary btn-success" 
+                          *ngIf="isEditMode==false" (click)="onSubmitEmployee()"
+                          [disabled]="addEmpForm.invalid">Save</button>
+                      <button type="submit" id="btnUpdate" class="btn btn-primary btn-success" 
+                          *ngIf="isEditMode==true" (click)="onUpdateEmployee()"
+                          [disabled]="addEmpForm.invalid">Update</button>
+                      <button id="btnCancel" class="btn btn-danger" style="margin: 2px;" (click)="cancelEmployee()">Cancel</button>
+                    </div>
+
+                    </div>
+                  </form>
+      
+                </tab>
+                <tab heading="Manage Photos">
+                  <h4>Department</h4>
+                  <p> {{employee.departmentId}}</p>
+                </tab>
+              </tabset>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+      
+    </div>
+  </div>

@@ -22,13 +22,13 @@ namespace EmployeeApp.API.Models
         [Required(ErrorMessage = "Gender is a required field")]
         public string Gender { get; set; }
 
-        [Required(ErrorMessage = "Email is a required field")]
+        //[Required(ErrorMessage = "Email is a required field")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Phone Number is a required field")]
+        //[Required(ErrorMessage = "Phone Number is a required field")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Date Of Birth is a required field")]
+        //[Required(ErrorMessage = "Date Of Birth is a required field")]
         public DateTime DateOfBirth { get; set; }
 
         public DateTime? DateOfJoining { get; set; }

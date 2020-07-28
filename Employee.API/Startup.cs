@@ -27,6 +27,7 @@ namespace EmployeeApp.API
             services.AddCors();
             services.AddAutoMapper(typeof(EmployeeRepository).Assembly);
             services.AddTransient<Seed>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddControllers();
         }
