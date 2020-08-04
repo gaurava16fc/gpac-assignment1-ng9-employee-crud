@@ -37,6 +37,11 @@ namespace EmployeeApp.API.Data.Repository
             db.Set<T>().Update(entity);
             return db.SaveChangesAsync();
         }
+
+        public async Task<bool> SaveAll()
+        {
+            return await db.SaveChangesAsync() > 0;
+        }
     }
 
 }

@@ -30,16 +30,30 @@
                 </div>
                 <div>
                   <strong>Last Modified On:</strong>
-                  <p>{{employee.lastModifiedOn | date }}</p>
+                  <p>{{employee.modifiedOn | date }}</p>
                 </div>
                 <div>
                   <strong>Created On:</strong>
                   <p>{{employee.createdOn | date }}</p>
                 </div>
               </div>
-              <div class="card-footer">
-                  <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" class="btn btn-success btn-block">Save Changes</button>  
-              </div>
+              <!-- <div class="card-footer">
+                  <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" 
+                      class="btn btn-success btn-block">Save Changes</button>
+                      <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" 
+                      class="btn btn-danger btn-block">Cancel</button>
+
+                  <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" 
+                    type="submit" id="btnSave" class="btn btn-primary btn-success btn-block" 
+                      *ngIf="isEditMode==false" (click)="onSubmitEmployee()"
+                      [disabled]="addEmpForm.invalid">Save</button>
+                  <button [disabled] = "!addEmpForm.dirty" form="addEmpForm" 
+                      type="submit" id="btnUpdate" class="btn btn-primary btn-success btn-block" 
+                      *ngIf="isEditMode==true" (click)="onUpdateEmployee()"
+                      [disabled]="addEmpForm.invalid">Update</button>
+                  <button form="addEmpForm" id="btnCancel" class="btn btn-danger btn-block" style="margin: 2px;" 
+                    (click)="cancelEmployee()">Cancel</button>                                      
+              </div> -->
             </div>
           </div>
       
@@ -107,7 +121,7 @@
                           && addEmpForm.get('empemail').touched">
                       <label for="empemail">Email</label>
                       <input
-                        type="text"
+                        type="email"
                         required
                         name="empemail"  
                         formControlName="empemail"
@@ -116,10 +130,19 @@
                         class="form-control"
                         placeholder="Email"/>
             
-                        <span *ngIf="addEmpForm.get('empemail').invalid && addEmpForm.get('empemail').touched"
+                        <!-- <span *ngIf="addEmpForm.get('empemail').invalid && addEmpForm.get('empemail').touched"
                              class="help-block alert-danger">
                           Email is mandatory
-                        </span>
+                        </span> -->
+
+                        <span *ngIf="addEmpForm.get('empemail').errors && addEmpForm.get('empemail').touched"> 
+                          <span *ngIf="addEmpForm.get('empemail').errors.required" class="help-block alert-danger">
+                              Email is required.
+                          </span> 		   
+                          <span *ngIf="addEmpForm.get('empemail').errors.pattern" class="help-block alert-danger">
+                              Invalid Email.
+                          </span> 
+                       </span> 
                     </div>
                   </div>
 
@@ -137,6 +160,8 @@
                         id="empphone"
                         [(ngModel)]="employee.phoneNumber"
                         class="form-control"
+                        appStrictNumericDigts
+                        maxlength=10
                         placeholder="Phone Number"/>
             
                         <span *ngIf="addEmpForm.get('empphone').invalid && addEmpForm.get('empphone').touched"
@@ -160,7 +185,7 @@
                         required
                         formControlName="empdob"
                         id="empdob"
-                        [(ngModel)]="employee.dob"
+                        [(ngModel)]="employee.dateOfBirth"
                         class="form-control"
                         placeholder="Date Of Birth"
                         bsDatepicker
@@ -182,7 +207,7 @@
                         name="empdoj"  
                         formControlName="empdoj"
                         id="empdoj"
-                        [(ngModel)]="employee.doj"
+                        [(ngModel)]="employee.dateOfJoining"
                         class="form-control"
                         placeholder="Date Of Joining"
                         bsDatepicker
@@ -251,7 +276,9 @@
                       <input type="text" class="form-control" [(ngModel)]="employee.country" formControlName="empcountry" placeholder="Country">
                     </div> -->
               
-                    <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">     
+                    <div class="form-group float-right">
                       <button type="submit" id="btnSave" class="btn btn-primary btn-success" 
                           *ngIf="isEditMode==false" (click)="onSubmitEmployee()"
                           [disabled]="addEmpForm.invalid">Save</button>
@@ -259,6 +286,8 @@
                           *ngIf="isEditMode==true" (click)="onUpdateEmployee()"
                           [disabled]="addEmpForm.invalid">Update</button>
                       <button id="btnCancel" class="btn btn-danger" style="margin: 2px;" (click)="cancelEmployee()">Cancel</button>
+                    </div>
+                    </div>
                     </div>
 
                     </div>
@@ -268,6 +297,10 @@
                 <tab heading="Manage Photos">
                   <h4>Department</h4>
                   <p> {{employee.departmentId}}</p>
+                  <hr />
+
+                  <app-photo-editor [photos] = "employee.photos" 
+                    (getEmployeePhotoChange)="updateMainPhoto($event)"></app-photo-editor>
                 </tab>
               </tabset>
             </div>
@@ -278,3 +311,6 @@
       
     </div>
   </div>
+
+
+  {{this.addEmpForm.value | json}}

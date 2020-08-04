@@ -14,9 +14,9 @@ namespace EmployeeApp.API.DTOs
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime? DateOfJoining { get; set; }
-        public Department Department { get; set; }
+        //public Department Department { get; set; }
         public int DepartmentId { get; set; }
-        public Facility Facility { get; set; }
+        //public Facility Facility { get; set; }
         public int FacilityId { get; set; }
         public string City { get; set; }
         public string Country { get; set; }

@@ -10,6 +10,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { JwtModule } from '@auth0/angular-jwt';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 import { EmployeeService } from './_services/employee.service';
@@ -35,6 +36,7 @@ import { environment } from 'src/environments/environment';
 import { AuthGuard } from './_guards/auth.guard';
 import { CreateEmployeeNewComponent } from './employees/create-employee-new/create-employee-new.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { PhotoEditorComponent } from './employees/photo-editor/photo-editor.component';
 
 
 export function tokenGetter() {
@@ -56,7 +58,8 @@ export function tokenGetter() {
     EmployeeListNewComponent,
     NavigationComponent,
     CreateEmployeeNewComponent,
-    SignInComponent
+    SignInComponent,
+    PhotoEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +70,7 @@ export function tokenGetter() {
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    FileUploadModule,
     RouterModule.forRoot(appRoutes, {enableTracing: false}),
     JwtModule.forRoot({
       config: {

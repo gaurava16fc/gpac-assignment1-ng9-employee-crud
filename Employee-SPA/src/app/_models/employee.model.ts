@@ -1,3 +1,4 @@
+import { Photo } from './photo.model';
 
 export class Employee  {
     id?: number;
@@ -7,20 +8,21 @@ export class Employee  {
     gender: string;
     email: string;
     phoneNumber: string;
-    dob: Date;
-    doj?: Date;
+    dateOfBirth: Date;
+    dateOfJoining?: Date;
     departmentId: number;
     facilityId: number;
     city: string;
     country: string;
     photoUrl: string = './assets/images/defaultEmpWithNoPhoto.png';
     createdOn: Date;
-    lastModifiedOn?: Date;
+    modifiedOn?: Date;
+    photos?: Photo[];
 
-
+/*
     constructor(employeeObj?: any) {
         if (employeeObj) {
-          this.id = employeeObj.id;
+            this.id = employeeObj.id;
           this.name = employeeObj.name;
           this.salary = employeeObj.salary;
           this.age = employeeObj.age;
@@ -28,8 +30,8 @@ export class Employee  {
           this.email = employeeObj.email;
 
           this.phoneNumber = employeeObj.phoneNumber;
-          this.dob = employeeObj.dateOfBirth;
-          this.doj = employeeObj.dateOfJoining;
+          this.dateOfBirth = employeeObj.dateOfBirth;
+          this.dateOfJoining = employeeObj.dateOfJoining;
           this.departmentId = employeeObj.departmentId;
           this.facilityId = employeeObj.facilityId;
 
@@ -37,9 +39,11 @@ export class Employee  {
           this.country = employeeObj.country;
           this.photoUrl = employeeObj.photoUrl;
           this.createdOn = employeeObj.createdOn;
-          this.lastModifiedOn = employeeObj.modifiedOn;
+          this.modifiedOn = employeeObj.modifiedOn;
+          this.photos = employeeObj.photos;
         }
     }
+    */
 }
 
 

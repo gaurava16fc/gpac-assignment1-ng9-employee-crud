@@ -5,6 +5,7 @@ using AutoMapper;
 using EmployeeApp.API.Data;
 using EmployeeApp.API.Data.Repository;
 using EmployeeApp.API.DTOs;
+using EmployeeApp.API.Helper;
 using EmployeeApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,10 @@ namespace EmployeeApp.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly EmployeeRepository _repo;
+        private readonly EmployeePhotoRepository _repoEmpPhoto;
         private readonly IMapper _mapper;
         private readonly ILogger<EmployeesController> _logger;
+        //private readonly DataContext _dbContext = null;
 
         public EmployeesController(IConfiguration configuration, IMapper mapper, ILogger<EmployeesController> logger)
         {
@@ -28,6 +31,7 @@ namespace EmployeeApp.API.Controllers
             _optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
             DataContext _dbContext = new DataContext(_optionsBuilder.Options);
             _repo = new EmployeeRepository(_dbContext);
+            _repoEmpPhoto = new EmployeePhotoRepository(_dbContext);
             this._mapper = mapper;
             this._logger = logger;
         }
@@ -36,7 +40,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
-            var _employees = await _repo.Read().Include(p => p.Photos).ToListAsync();
+            var _employees = await _repo.ReadEmployeesWithPhotos().Include(p => p.Photos).ToListAsync();
             var _employeesListToReturn = _mapper.Map<IEnumerable<EmployeeDTO>>(_employees);
             return Ok(_employeesListToReturn);
         }
@@ -45,12 +49,13 @@ namespace EmployeeApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
-            var _employee = await _repo.Read().Include(p => p.Photos).FirstOrDefaultAsync(e => e.Id == id);
+            //var _employee = await _repo.Read().Include(p => p.Photos).FirstOrDefaultAsync(e => e.Id == id);
+            var _employee = await _repo.ReadEmployeesWithPhotos().FirstOrDefaultAsync(e => e.Id == id);
             if (_employee == null)
             {
                 return NotFound(@"Employee with Id = {" + Convert.ToString(id) + "} is not found");
             }
-            var _employeeToReturn = _mapper.Map<EmployeeDTO>(_employee);
+            var _employeeToReturn = _mapper.Map<EmployeeForDetailedDTO>(_employee);
             return Ok(_employeeToReturn);
         }
 
@@ -65,6 +70,9 @@ namespace EmployeeApp.API.Controllers
                     return BadRequest();
                 }
                 var _employeeNew = _mapper.Map<Employee>(employeeForAddDTO);
+                //_employeeNew.Age = _employeeNew.DateOfBirth.CalculateAge();
+                _employeeNew.CreatedOn = DateTime.Now;
+                _employeeNew.ModifiedOn = DateTime.Now;
                 await _repo.Create(_employeeNew);
                 var _employeeToReturn = _mapper.Map<EmployeeDTO>(_employeeNew);
                 return CreatedAtAction("GetEmployee", new { id = _employeeNew.Id }, _employeeToReturn);
@@ -83,12 +91,14 @@ namespace EmployeeApp.API.Controllers
         {
             try
             {
-                var _employeeFromRepo = await _repo.Read().FirstOrDefaultAsync(e => e.Id == id);
+                var _employeeFromRepo = await _repo.ReadEmployeesWithPhotos().FirstOrDefaultAsync(e => e.Id == id);
                 if (_employeeFromRepo == null)
                 {
                     return NotFound(@"Employee with Id = {" + Convert.ToString(id) + "} is not found");
                 }
                 _mapper.Map(employeeForUpdateDTO, _employeeFromRepo);
+                //_employeeFromRepo.Age = _employeeFromRepo.DateOfBirth.CalculateAge();
+                _employeeFromRepo.ModifiedOn = DateTime.Now;
                 await _repo.Update(_employeeFromRepo);
                 return NoContent();
             }
@@ -106,7 +116,7 @@ namespace EmployeeApp.API.Controllers
         {
             try
             {
-                var _employee = await _repo.Read().FirstOrDefaultAsync(e => e.Id == id);
+                var _employee = await _repo.ReadEmployeesWithPhotos().FirstOrDefaultAsync(e => e.Id == id);
                 if (_employee == null)
                 {
                     return NotFound(@"Employee with Id = {" + Convert.ToString(id) + "} is not found");

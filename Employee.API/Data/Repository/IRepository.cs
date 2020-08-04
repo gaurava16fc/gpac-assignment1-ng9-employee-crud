@@ -10,5 +10,6 @@ namespace EmployeeApp.API.Data.Repository
         IQueryable<T> Read();
         Task Update(T entity);
         Task Delete(T entity);
+        Task<bool> SaveAll();
     }
 }

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Employee } from 'src/app/_models/employee.model';
+// import { Photo } from 'src/app/_models/photo.model';
 import { EmployeeService } from 'src/app/_services/employee.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 
@@ -21,7 +22,6 @@ export class CreateEmployeeNewComponent implements OnInit, OnDestroy {
     employee: Employee;
     subPostEmployeeAddition: Subscription;
     subPostEmployeeEdit: Subscription;
-
     addEmpForm: FormGroup;
 
     constructor(
@@ -42,17 +42,18 @@ export class CreateEmployeeNewComponent implements OnInit, OnDestroy {
       this.isEditMode = false;
       this.employeeId = 0;
       this.addEmpForm = this.formBuilder.group({
-        empid: [''],
+        // empid: [''],
         empname: ['', Validators.required],
         empsalary: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-        empage: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+        // empage: [''],
         empcity: [''],
         empcountry: [''],
-        empemail: ['', Validators.required],
+        empemail: ['', [Validators.required, Validators.email]],
         empphone: ['', Validators.required],
         empgender: ['', Validators.required],
         empdob: ['', Validators.required],
-        empdoj: ['']
+        empdoj: [''],
+        photos: this.formBuilder.array([])
       });
 
       const empid = +this.route.snapshot.params['id'];
@@ -60,6 +61,7 @@ export class CreateEmployeeNewComponent implements OnInit, OnDestroy {
         this.employeeId = empid;
         this.employeeService.getEmployee(empid).subscribe((empData: Employee) => {
           this.employee = empData;
+          console.log(this.employee);
         }, error => {
           this.alertify.error(error);
         });
@@ -73,11 +75,24 @@ export class CreateEmployeeNewComponent implements OnInit, OnDestroy {
         return;
       }
       if (this.isEditMode) {
-        this.employee.id = +this.addEmpForm.value.empid;
+        // this.employee.id = +this.addEmpForm.value.empid;
       }
       this.employee.name = this.addEmpForm.value.empname;
       this.employee.salary = +this.addEmpForm.value.empsalary;
-      this.employee.age = +this.addEmpForm.value.empage;
+      this.employee.dateOfBirth = this.addEmpForm.value.empdob;
+      this.employee.dateOfJoining = this.addEmpForm.value.empdoj;
+      this.employee.gender = this.addEmpForm.value.empgender;
+      this.employee.phoneNumber = this.addEmpForm.value.empphone;
+      this.employee.email = this.addEmpForm.value.empemail;
+      // this.employee.departmentId = +this.addEmpForm.value.empdepartmentId;
+      this.employee.city = this.addEmpForm.value.empcity;
+      this.employee.country = this.addEmpForm.value.empcountry;
+      // this.employee.facilityId = +this.addEmpForm.value.empfacilityId;
+      // this.employee.photoUrl = this.addEmpForm.value.empphotoUrl;
+
+
+
+      // this.employee.age = +this.addEmpForm.value.empage;
     }
 
     private addEmployee() {
@@ -125,6 +140,12 @@ export class CreateEmployeeNewComponent implements OnInit, OnDestroy {
               this.addEmpForm.reset();
               this.router.navigate(['/employees']);
             });
+
+          // console.log(this.employee);
       }
+    }
+
+    updateMainPhoto(empPhotoUrl: string) {
+      this.employee.photoUrl = empPhotoUrl;
     }
   }
