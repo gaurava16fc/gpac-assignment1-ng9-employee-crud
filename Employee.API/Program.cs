@@ -19,7 +19,7 @@ namespace EmployeeApp.API
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DataContext>();
+                    var context = services.GetRequiredService<RepositoryDBContext>();
                     context.Database.Migrate();
                     Seed.DumpSeedData(context);
                 }

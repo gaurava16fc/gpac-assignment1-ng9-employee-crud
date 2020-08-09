@@ -1,16 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using EmployeeApp.API.Data.Repository;
+using EmployeeApp.API.Data.Repository.Interfaces;
 using EmployeeApp.API.DTOs;
 using EmployeeApp.API.Helper;
 using EmployeeApp.API.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,14 +30,15 @@ namespace EmployeeApp.API.Controllers
 
         public PhotosController
             (
-                IEmployeePhotoRepository repository, 
+                IRepositoryWrapper repositoryWrapper,
+                //IEmployeePhotoRepository repository, 
                 IMapper mapper, ILogger<PhotosController> logger,
-                IEmployeeRepository repositoryEmployee,
+                //IEmployeeRepository repositoryEmployee,
                 IOptions<CloudinarySettings> cloudinaryConfig
             )
         {
-            this._repository = repository;
-            this._repoEmployee = repositoryEmployee;
+            this._repository = repositoryWrapper.EmployeePhotoRepository;
+            this._repoEmployee = repositoryWrapper.EmployeeRepository;
             this._mapper = mapper;
             this._logger = logger;
             this._cloudinaryConfig = cloudinaryConfig;
@@ -64,7 +64,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet("{photoId}", Name = "GetPhoto")]
         public async Task<ActionResult> GetPhoto(int photoId)
         {
-            var photoFromRepo = await _repository.Read().FirstOrDefaultAsync(p => p.Id == photoId);
+            var photoFromRepo = await _repository.FindByCondition(p => p.Id == photoId).FirstOrDefaultAsync();
             var photo = _mapper.Map<PhotoForReturnDTO>(photoFromRepo);
             return Ok(photo);
         }
@@ -145,7 +145,7 @@ namespace EmployeeApp.API.Controllers
                 if (!employeesFromRepo.Photos.Any(p => p.Id == photoId))
                     return Unauthorized($"Photo with Id# {photoId} is not valid.");
 
-                var photoFromRepo = await _repository.Read().FirstOrDefaultAsync(p => p.Id == photoId);
+                var photoFromRepo = await _repository.FindByCondition(p => p.Id == photoId).FirstOrDefaultAsync();
                 if (photoFromRepo == null)
                     return NotFound($"Photo# {photoId}, is not available!");
 

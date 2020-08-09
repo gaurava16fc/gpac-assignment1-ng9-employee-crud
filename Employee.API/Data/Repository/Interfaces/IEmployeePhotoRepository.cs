@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeeApp.API.Data.Repository
+namespace EmployeeApp.API.Data.Repository.Interfaces
 {
     public interface IEmployeePhotoRepository : IRepository<Photo>
     {

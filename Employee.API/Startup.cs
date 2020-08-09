@@ -24,16 +24,18 @@ namespace EmployeeApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<RepositoryDBContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.ConfigureSQLiteDBContext(Configuration);
             services.AddCors();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-            services.AddAutoMapper(typeof(EmployeeRepository).Assembly);
-            services.AddTransient<Seed>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            services.AddScoped<IFacilityRepository, FacilityRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmployeePhotoRepository, EmployeePhotoRepository>();
+            services.ConfigureAddOnServices(Configuration);
+            //services.AddTransient<Seed>();
+            services.ConfigurSeedDataIfNotExists();
+            services.ConfigureRepositoryWrapper();
+            //services.AddScoped<IAuthRepository, AuthRepository>();
+            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //services.AddScoped<IFacilityRepository, FacilityRepository>();
+            //services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //services.AddScoped<IEmployeePhotoRepository, EmployeePhotoRepository>();
             services.AddControllers();
         }
 

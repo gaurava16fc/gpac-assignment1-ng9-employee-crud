@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeApp.API.Data;
 using EmployeeApp.API.Data.Repository;
+using EmployeeApp.API.Data.Repository.Interfaces;
 using EmployeeApp.API.DTOs;
 using EmployeeApp.API.Helper;
 using EmployeeApp.API.Models;
@@ -18,19 +19,23 @@ namespace EmployeeApp.API.Controllers
     [ApiController]
     public class FacilitiesController : ControllerBase
     {
-        private readonly FacilityRepository _repo;
+        private readonly IFacilityRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<FacilitiesController> _logger;
 
-        public FacilitiesController(IConfiguration configuration, IMapper mapper, ILogger<FacilitiesController> logger)
+        public FacilitiesController
+            (
+                IRepositoryWrapper repositoryWrapper, 
+                IMapper mapper, 
+                ILogger<FacilitiesController> logger
+            )
         {
-            IConfiguration _configuration = configuration;
-            DbContextOptionsBuilder<DataContext> _optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            _optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
-            DataContext _dbContext = new DataContext(_optionsBuilder.Options);
-
-
-            _repo = new FacilityRepository(_dbContext);
+            //IConfiguration _configuration = configuration;
+            //DbContextOptionsBuilder<RepositoryDBContext> _optionsBuilder = new DbContextOptionsBuilder<RepositoryDBContext>();
+            //_optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
+            //RepositoryDBContext _dbContext = new RepositoryDBContext(_optionsBuilder.Options);
+            //_repo = new FacilityRepository(_dbContext);
+            this._repo = repositoryWrapper.FacilityRepository;
             this._mapper = mapper;
             this._logger = logger;
         }
@@ -39,7 +44,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFacilities()
         {
-            var _facilities = await _repo.Read().ToListAsync();
+            var _facilities = await _repo.FindAll().ToListAsync();
             var _facilitiesListToReturn = _mapper.Map<IEnumerable<FacilityDTO>>(_facilities);
             return Ok(_facilitiesListToReturn);
         }
@@ -48,7 +53,7 @@ namespace EmployeeApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFacility(int id)
         {
-            var _facility = await _repo.Read().FirstOrDefaultAsync(e => e.Id == id);
+            var _facility = await _repo.FindByCondition(e => e.Id == id).FirstOrDefaultAsync();
             if (_facility == null)
             {
                 return NotFound(@"Facility with Id = {" + Convert.ToString(id) + "} is not found");

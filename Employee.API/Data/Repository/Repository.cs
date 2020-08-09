@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EmployeeApp.API.Data.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EmployeeApp.API.Data.Repository
@@ -27,9 +30,14 @@ namespace EmployeeApp.API.Data.Repository
             return db.SaveChangesAsync();
         }
 
-        public IQueryable<T> Read()
+        public IQueryable<T> FindAll()
         {
-            return db.Set<T>().AsQueryable();
+            return db.Set<T>().AsNoTracking();
+        }
+
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        {
+            return db.Set<T>().Where(expression).AsNoTracking();
         }
 
         public Task Update(T entity)

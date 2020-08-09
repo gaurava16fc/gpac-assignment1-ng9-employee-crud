@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeApp.API.Data;
 using EmployeeApp.API.Data.Repository;
+using EmployeeApp.API.Data.Repository.Interfaces;
 using EmployeeApp.API.DTOs;
 using EmployeeApp.API.Helper;
 using EmployeeApp.API.Models;
@@ -18,20 +19,27 @@ namespace EmployeeApp.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly EmployeeRepository _repo;
-        private readonly EmployeePhotoRepository _repoEmpPhoto;
+        private readonly IEmployeeRepository _repo;
+        private readonly IEmployeePhotoRepository _repoEmpPhoto;
         private readonly IMapper _mapper;
         private readonly ILogger<EmployeesController> _logger;
         //private readonly DataContext _dbContext = null;
 
-        public EmployeesController(IConfiguration configuration, IMapper mapper, ILogger<EmployeesController> logger)
+        public EmployeesController
+            (
+                IRepositoryWrapper repositoryWrapper, 
+                IMapper mapper, 
+                ILogger<EmployeesController> logger
+            )
         {
-            IConfiguration _configuration = configuration;
-            DbContextOptionsBuilder<DataContext> _optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            _optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
-            DataContext _dbContext = new DataContext(_optionsBuilder.Options);
-            _repo = new EmployeeRepository(_dbContext);
-            _repoEmpPhoto = new EmployeePhotoRepository(_dbContext);
+            //IConfiguration _configuration = configuration;
+            //DbContextOptionsBuilder<RepositoryDBContext> _optionsBuilder = new DbContextOptionsBuilder<RepositoryDBContext>();
+            //_optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
+            //RepositoryDBContext _dbContext = new RepositoryDBContext(_optionsBuilder.Options);
+            //_repo = new EmployeeRepository(_dbContext);
+            //_repoEmpPhoto = new EmployeePhotoRepository(_dbContext);
+            this._repo = repositoryWrapper.EmployeeRepository;
+            this._repoEmpPhoto = repositoryWrapper.EmployeePhotoRepository;
             this._mapper = mapper;
             this._logger = logger;
         }

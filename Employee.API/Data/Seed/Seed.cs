@@ -8,7 +8,7 @@ namespace EmployeeApp.API.Data
 {
     public class Seed
     {
-        public static void DumpSeedData(DataContext context)
+        public static void DumpSeedData(RepositoryDBContext context)
         {
             // User Roles Data...
             if (!context.UserRoles.Any())

@@ -3,9 +3,9 @@ using EmployeeApp.API.Models;
 
 namespace EmployeeApp.API.Data
 {
-    public class DataContext : DbContext
+    public class RepositoryDBContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options) : base(options)
         {
         }
 
@@ -15,6 +15,5 @@ namespace EmployeeApp.API.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Photo> EmployeePhotos { get; set; }
-
     }
 }

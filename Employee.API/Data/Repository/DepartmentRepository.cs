@@ -1,10 +1,12 @@
 ﻿using EmployeeApp.API.Models;
+using EmployeeApp.API.Data.Repository.Interfaces;
+
 
 namespace EmployeeApp.API.Data.Repository
 {
-    public class DepartmentRepository : Repository<DataContext, Department>, IDepartmentRepository
+    public class DepartmentRepository : Repository<RepositoryDBContext, Department>, IDepartmentRepository
     {
-        public DepartmentRepository(DataContext repoContext) : base(repoContext)
+        public DepartmentRepository(RepositoryDBContext repoContext) : base(repoContext)
         {
         }
     }

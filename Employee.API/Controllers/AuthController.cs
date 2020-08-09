@@ -5,10 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using EmployeeApp.API.Data.Repository;
 using EmployeeApp.API.DTOs;
 using EmployeeApp.API.Models;
-
+using EmployeeApp.API.Data.Repository.Interfaces;
 
 namespace EmployeeApp.API.Controllers
 {
@@ -19,10 +18,10 @@ namespace EmployeeApp.API.Controllers
         public IAuthRepository _repo { get; }
         public IConfiguration _config { get; }
 
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        public AuthController(IRepositoryWrapper repositoryWrapper, IConfiguration config)
         {
             _config = config;
-            _repo = repo;
+            _repo = repositoryWrapper.AuthRepository;
         }
 
         [HttpPost("register")]

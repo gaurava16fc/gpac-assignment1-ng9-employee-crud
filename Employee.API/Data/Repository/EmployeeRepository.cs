@@ -1,21 +1,23 @@
 ﻿using EmployeeApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using EmployeeApp.API.Data.Repository.Interfaces;
+
 
 namespace EmployeeApp.API.Data.Repository
 {
-    public class EmployeeRepository : Repository<DataContext, Employee>, IEmployeeRepository
+    public class EmployeeRepository : Repository<RepositoryDBContext, Employee>, IEmployeeRepository
     {
-        private readonly DataContext _repoContext;
+        private readonly RepositoryDBContext _repoContext;
 
-        public EmployeeRepository(DataContext repoContext) : base(repoContext)
+        public EmployeeRepository(RepositoryDBContext repoContext) : base(repoContext)
         {
             this._repoContext = repoContext;
         }
 
         public IQueryable<Employee> ReadEmployeesWithPhotos()
         {
-            return Read().Include(p => p.Photos).AsQueryable(); 
+            return FindAll().Include(p => p.Photos).AsQueryable(); 
         }
     }
 }

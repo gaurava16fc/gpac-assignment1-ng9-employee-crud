@@ -1,17 +1,20 @@
 ﻿using EmployeeApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using EmployeeApp.API.Data.Repository.Interfaces;
+
 
 namespace EmployeeApp.API.Data.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        public DataContext _context { get; }
-        public AuthRepository(DataContext context)
+        public RepositoryDBContext _context { get; }
+
+        public AuthRepository(RepositoryDBContext context)
         {
             _context = context;
-
         }
+
         public async Task<User> Login(string username, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
